@@ -17,7 +17,20 @@ export class EditorComponent {
       editorContent: ['']
     });
   }
-  
-  
 
+  ngOnInit(): void {
+    // Load initial data from local storage if available
+    const savedContent = localStorage.getItem('editorContent');
+    if (savedContent) {
+      const editorControl = this.form.get('editorContent');
+      if (editorControl) {
+        editorControl.setValue(savedContent);
+      }
+    }
+
+    // Save the content to local storage whenever it changes
+    this.form.get('editorContent')?.valueChanges.subscribe(value => {
+      localStorage.setItem('editorContent', value);
+    });
+  }
 }
